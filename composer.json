@@ -2,6 +2,7 @@
     "name": "wegmeister/hyphenator",
     "type": "typo3-flow-plugin",
     "description": "PHP-Adaption of Hyphenator.js (by Mathias Nater).",
+    "license": "Creative Commons Attribution-Share Alike 2.5 Switzerland",
     "require": {
         "php": ">=5.5.0",
         "typo3/neos": "*"

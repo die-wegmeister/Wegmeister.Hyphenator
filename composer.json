@@ -15,6 +15,9 @@
     "extra": {
         "typo3/flow": {
             "manage-resources" : true
+        },
+        "neos": {
+            "installer-resource-folders": ["Resources/Private/Installer/"]
         }
     }
 }

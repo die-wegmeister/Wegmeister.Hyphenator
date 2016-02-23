@@ -278,7 +278,7 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
 
                 for ($i = 0; $i < count($pat); $i += 2) {
                     $c = $p - 1 + $pat[$i];
-                    if (!$hypos[$c] || $hypos[$c] < $pat[$i + 1]) {
+                    if (!isset($hypos[$c]) || $hypos[$c] < $pat[$i + 1]) {
                         $hypos[$c] = $pat[$i + 1];
                     }
                 }
@@ -287,7 +287,7 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
 
         $inserted = 0;
         for ($i = $this->settings['leftmin']; $i <= (mb_strlen($word) - $this->settings['rightmin']); $i++) {
-            if (!!($hypos[$i] & 1)) {
+            if (isset($hypos[$i]) && !!$hypos[$i] & 1) {
                 array_splice($chars, $i + $inserted + 1, 0, $this->settings['hyphen']);
                 $inserted++;
             }

@@ -206,7 +206,7 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
                 $word .= $char;
             } else {
                 if ($word !== '') {
-                    $output[] = $this->wordHyphenation($word);
+                    $output[] = $this->wordHyphenation($word, $locale);
                     $word = '';
                 }
                 if ($tag !== '' || $char === '<') {

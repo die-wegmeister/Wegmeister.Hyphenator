@@ -3,6 +3,37 @@ namespace Wegmeister\Hyphenator\ViewHelpers\Format;
 
 /**
  * This script belongs to the TYPO3 Flow Package "Wegmeister.Hyphenator"
+ *
+ * wegmeister/hyphenator 1.0.0
+ * Neos-Integration of the phpHyphenator with some enhancements on
+ * the pattern-converter by Benjamin Klix
+ *
+ * phpHyphenator 1.6.1
+ * Enhanced by Erik Krause
+ *
+ * based on
+ *
+ * phpHyphenator 1.6
+ * Enhanced by Liedtke.IT Jens Liedtke
+ * PHP version of the JavaScript Hyphenator version 3.1.0 by
+ * Mathias Nater, <a href = "mailto:mathias@mnn.ch">mathias@mnn.ch</a>
+ *
+ * based on
+ *
+ * phpHyphenator 1.5
+ * Developed by yellowgreen designbüro
+ * PHP version of the JavaScript Hyphenator 1.0 (Beta) by Matthias Nater
+ *
+ * Licensed under Creative Commons Attribution-Share Alike 2.5 Switzerland
+ * http://creativecommons.org/licenses/by-sa/2.5/ch/deed.en
+ *
+ * Associated pages:
+ * http://www.dokuwiki.org/plugin:hyphenation
+ *
+ * Special thanks to:
+ * Dave Gööck (webvariants.de)
+ * Markus Birth (birth-online.de)
+ * Nico Wenig (yellowgreen.de)
  */
 
 use TYPO3\Flow\Annotations as Flow;
@@ -24,7 +55,7 @@ use TYPO3\Fluid\Core\ViewHelper\Facets\CompilableInterface;
  * </output>
  *
  * <code>
- * {text -> wh:format.hyphenate()}
+ * {text -> wh:format.hyphenate(locale: 'de')}
  * </code>
  * <output>
  * Text with hyphens
@@ -308,7 +339,6 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
         $lines = str_replace("\t", '', $lines);
 
         $patterns = [];
-        $vars = '';
         foreach ($lines as $lineNum => $line) {
             $num = number_format($line);
             if ($num >= 3) {
@@ -317,10 +347,6 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
                     $patterns[] = mb_substr($str1[1], $i * $num, $num, 'utf-8');
                 }
             }
-            if (strpos($line, 'leftmin') > 0) $vars .= $line;
-            if (strpos($line, 'rightmin') > 0) $vars .= $line;
-            if (strpos($line, 'shortestPattern') > 0) $vars .= $line;
-            if (strpos($line, 'longestPattern') > 0) $vars .= $line;
         }
 
         $filename = $filename . '.php';

@@ -39,7 +39,7 @@ namespace Wegmeister\Hyphenator\ViewHelpers\Format;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\I18n\Service;
 use TYPO3\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\Neos\ViewHelpers\Rendering\AbstractRenderingStateViewHelper;
 use TYPO3\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 
 /**
@@ -61,7 +61,7 @@ use TYPO3\Fluid\Core\ViewHelper\Facets\CompilableInterface;
  * Text with hyphens
  * </output>
  */
-class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterface
+class HyphenateViewHelper extends AbstractRenderingStateViewHelper implements CompilableInterface
 {
 
     /**
@@ -143,12 +143,16 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
     */
     public function render($value = NULL, $locale = null)
     {
-        $renderChildrenClosure = $this->buildRenderChildrenClosure();
-        $renderingContext = $this->renderingContext;
+        $context = $this->getNodeContext();
+        $renderingMode = $context->getCurrentRenderingMode();
 
+        // Do not use hyphenator in Neos Backend
+        if ($renderingMode->isEdit()) {
+            return $value;
+        }
 
         if ($value === NULL) {
-            $value = $renderChildrenClosure();
+            $value = $this->buildRenderChildrenClosure()();
         }
         if (is_string($value) || (is_object($value) && method_exists($value, '__toString'))) {
             if ($locale === null) {

@@ -114,6 +114,13 @@ class HyphenateViewHelper extends AbstractRenderingStateViewHelper implements Co
     public function injectSettings(array $settings)
     {
         mb_internal_encoding("utf-8");
+        $excludeTags = [];
+        foreach ($settings['excludeTags'] as $tag => $exclude) {
+            if ($exclude === true) {
+                $excludeTags[] = $tag;
+            }
+        }
+        $settings['excludeTags'] = $excludeTags;
         $this->settings = $settings;
 
         $this->dictionary = [];
@@ -143,13 +150,13 @@ class HyphenateViewHelper extends AbstractRenderingStateViewHelper implements Co
     */
     public function render($value = NULL, $locale = null)
     {
-        $context = $this->getNodeContext();
-        $renderingMode = $context->getCurrentRenderingMode();
+        // $context = $this->getNodeContext();
+        // $renderingMode = $context->getCurrentRenderingMode();
 
-        // Do not use hyphenator in Neos Backend
-        if ($renderingMode->isEdit()) {
-            return $value;
-        }
+        // // Do not use hyphenator in Neos Backend
+        // if ($renderingMode->isEdit()) {
+        //     return $value;
+        // }
 
         if ($value === NULL) {
             $closure = $this->buildRenderChildrenClosure();

@@ -5,10 +5,10 @@ Wegmeister:
     hyphen: '­' # utf-8 char for the html &shy; entity
     altHyphen: '&shy;'
     excludeTags:
-      - code
-      - pre
-      - script
-      - style
+      code: TRUE
+      pre: TRUE
+      script: TRUE
+      style: TRUE
     leftmin: 2
     rightmin: 2
     shortestPattern: 2

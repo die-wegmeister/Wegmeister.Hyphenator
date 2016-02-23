@@ -145,13 +145,12 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
         $renderingContext = $this->renderingContext;
 
 
-        $value = $arguments['value'];
         if ($value === NULL) {
             $value = $renderChildrenClosure();
         }
         if (is_string($value) || (is_object($value) && method_exists($value, '__toString'))) {
             if ($locale === null) {
-                $locale = $this->localizationService->getConfiguration()->getCurrentLocale();
+                $locale = $this->localizationService->getConfiguration()->getCurrentLocale()->getLanguage();
             }
 
             if (!isset($this->patterns[$locale])) {

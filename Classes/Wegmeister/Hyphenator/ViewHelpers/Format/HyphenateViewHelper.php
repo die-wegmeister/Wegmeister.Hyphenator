@@ -154,10 +154,12 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
             if ($locale === null) {
                 $locale = $this->localizationService->getConfiguration()->getCurrentLocale()->getLanguage();
             }
+            if ($locale === 'en') {
+                $locale .= '-gb';
+            }
 
             if (!isset($this->patterns[$locale])) {
                 $filename = $this->settings['patternPath'] . $locale;
-                if ($locale === 'en') $filename .= '-gb';
                 if (file_exists($filename . '.php')) {
                     $this->patterns[$locale] = include($filename . '.php');
                 } elseif (file_exists($filename . '.js')) {

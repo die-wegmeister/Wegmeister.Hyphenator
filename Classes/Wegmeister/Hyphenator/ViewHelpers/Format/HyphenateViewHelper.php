@@ -152,7 +152,8 @@ class HyphenateViewHelper extends AbstractRenderingStateViewHelper implements Co
         }
 
         if ($value === NULL) {
-            $value = $this->buildRenderChildrenClosure()();
+            $closure = $this->buildRenderChildrenClosure();
+            $value = $closure();
         }
         if (is_string($value) || (is_object($value) && method_exists($value, '__toString'))) {
             if ($locale === null) {

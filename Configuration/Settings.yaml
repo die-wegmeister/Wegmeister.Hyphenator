@@ -1,0 +1,16 @@
+Wegmeister:
+  Hyphenator:
+    patternPath: '../../../../../Configuration/patterns/'
+    dictionary: '../../../../../Configuration/dictionary/dictionary.txt'
+    hyphen: '­' # utf-8 char for the html &shy; entity
+    altHyphen: '&shy;'
+    excludeTags:
+      - code
+      - pre
+      - script
+      - style
+    leftmin: 2
+    rightmin: 2
+    shortestPattern: 2
+    longestPattern: 10
+    wordBoundaries: "<>\t\n\r\0\x0B !\"§$%&/()=?….,;:-–_„”«»‘’'/\\‹›()[]{}*+´`^|©?®™?¹²³"

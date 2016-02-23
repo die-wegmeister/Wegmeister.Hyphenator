@@ -1,7 +1,7 @@
 Wegmeister:
   Hyphenator:
     patternPath: '%FLOW_PATH_PACKAGES%Plugins/Wegmeister.Hyphenator/Configuration/patterns/'
-    dictionary: '%FLOW_PATH_PACKAGES%Plugins/Wegmeister.Hyphenator/Configuration/dictionary/dictionary.txt'
+    dictionary: '%FLOW_PATH_ROOT%Configuration/Production/dictionary.txt'
     hyphen: '­' # utf-8 char for the html &shy; entity
     altHyphen: '&shy;'
     excludeTags:

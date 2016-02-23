@@ -121,7 +121,9 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
             $entries = file($this->settings['dictionary']);
             foreach ($entries as $entry) {
                 $entry = trim($entry);
-                $this->dictionary[str_replace('/', '', mb_strtolower($entry))] = str_replace('/', $this->settings['hyphen'], $entry);
+                if (strlen($entry) > 0) {
+                    $this->dictionary[str_replace('/', '', mb_strtolower($entry))] = str_replace('/', $this->settings['hyphen'], $entry);
+                }
             }
         }
 
@@ -244,7 +246,9 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
           || mb_strpos($word, $this->settings['altHyphen']) !== false) {
             return $word;
         }
-        if (isset($this->dictionary[mb_strtolower($word)])) return $this->dictionary[mb_strtolower($word)];
+        if (isset($this->dictionary[mb_strtolower($word)])) {
+            return $this->dictionary[mb_strtolower($word)];
+        }
 
         $w = '_' . $word . '_';
         $wLength = mb_strlen($w);

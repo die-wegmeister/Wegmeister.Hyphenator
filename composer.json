@@ -11,5 +11,10 @@
         "psr-0": {
             "Wegmeister\\Hyphenator": "Classes"
         }
+    },
+    "extra": {
+        "typo3/flow": {
+            "manage-resources" : true
+        }
     }
 }

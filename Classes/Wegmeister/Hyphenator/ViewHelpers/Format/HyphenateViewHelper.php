@@ -340,11 +340,14 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
 
         $patterns = [];
         foreach ($lines as $lineNum => $line) {
-            $num = number_format($line);
-            if ($num >= 3) {
-                $str1 = explode('"', $line);
-                for ($i = 0; $i < mb_strlen($str1[1]) / $num; $i++) {
-                    $patterns[] = mb_substr($str1[1], $i * $num, $num, 'utf-8');
+            if (preg_match('/^([0-9]+)=/', $line, $matches)) {
+                $num = $matches[1];
+                if ($num >= 3) {
+                    $str1 = explode('"', $line);
+                    for ($i = 0; $i < mb_strlen($str1[1]) / $num; $i++) {
+                        $pattern = mb_substr($str1[1], $i * $num, $num, 'utf-8');
+                        $patterns[] = "'" . preg_replace('/[0-9]/', '', $pattern) . "'=>'" . $pattern . "'";
+                    }
                 }
             }
         }
@@ -355,7 +358,7 @@ class HyphenateViewHelper extends AbstractViewHelper implements CompilableInterf
             return false;
         }
 
-        $pattern = "return ['" . implode("', '", $patterns) . "']";
+        $pattern = 'return [' . implode(', ', $patterns) . '];';
         if (!fwrite($handle, "<?php\n" . $pattern)) {
             // TODO: Add Exception
             return false;

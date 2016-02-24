@@ -14,3 +14,10 @@ Wegmeister:
     shortestPattern: 2
     longestPattern: 10
     wordBoundaries: "<>\t\n\r\0\x0B !\"§$%&/()=?….,;:-–_„”«»‘’'/\\‹›()[]{}*+´`^|©?®™?¹²³"
+
+
+TYPO3:
+  Neos:
+    typoScript:
+      autoInclude:
+        'Wegmeister.Hyphenator': TRUE

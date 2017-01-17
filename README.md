@@ -1,2 +1,2 @@
 # Wegmeister.Hyphenator
-PHP-Adaption of Hyphenator.js (by Mathias Nater).
+Neos-Integration of org_heigl/hyphenator

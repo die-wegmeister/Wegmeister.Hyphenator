@@ -4,12 +4,13 @@
     "description": "PHP-Adaption of Hyphenator.js (by Mathias Nater).",
     "license": "Creative Commons Attribution-Share Alike 2.5 Switzerland",
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=7.0",
+        "org_heigl/hyphenator": "2.0.*",
         "typo3/neos": "*"
     },
     "autoload": {
-        "psr-0": {
-            "Wegmeister\\Hyphenator": "Classes"
+        "psr-4": {
+            "Wegmeister\\Hyphenator\\": "Classes"
         }
     },
     "extra": {

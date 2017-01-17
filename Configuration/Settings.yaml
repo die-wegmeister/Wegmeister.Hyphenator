@@ -11,9 +11,12 @@ Wegmeister:
       style: TRUE
     leftmin: 2
     rightmin: 2
-    shortestPattern: 2
+    shortestPattern: 5
     longestPattern: 10
     wordBoundaries: "<>\t\n\r\0\x0B !\"§$%&/()=?….,;:-–_„”«»‘’'/\\‹›()[]{}*+´`^|©?®™?¹²³"
+    locales:
+      'de': 'de_DE'
+      'en': 'en_GB'
 
 
 TYPO3:

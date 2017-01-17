@@ -38,6 +38,7 @@ namespace Wegmeister\Hyphenator\Service;
  */
 
 use TYPO3\Flow\Annotations as Flow;
+use \Org\Heigl\Hyphenator;
 
 /**
  * @Flow\Scope("singleton")
@@ -64,6 +65,11 @@ class HyphenationService
      * @var array
      */
     protected $patterns;
+
+    /**
+     * @var array
+     */
+    protected $hyphenators;
 
 
     /**
@@ -114,26 +120,23 @@ class HyphenationService
         if ($locale === null || $locale === '') {
             $locale = $this->localizationService->getConfiguration()->getCurrentLocale()->getLanguage();
         }
-        if ($locale === 'en') {
-            $locale .= '-gb';
+        if (isset($this->settings['locales'][$locale])) {
+            $locale = $this->settings['locales'][$locale];
         }
 
-        if (!isset($this->patterns[$locale])) {
-            $filename = $this->settings['patternPath'] . $locale;
-            if (file_exists($filename . '.php')) {
-                $this->patterns[$locale] = include($filename . '.php');
-            } elseif (file_exists($filename . '.js')) {
-                if ($this->makePHPPattern($filename)) {
-                    $this->patterns[$locale] = include($filename . '.php');
-                } else {
-                    $this->patterns[$locale] = [];
-                }
-            } else {
-                $this->patterns[$locale] = [];
-            }
-        }
-        if ($this->patterns[$locale] === []) {
-            return $text;
+        if (!isset($this->hyphenators[$locale])) {
+            $options = new Hyphenator\Options();
+            $options
+                ->setHyphen($this->settings['hyphen'])
+                ->setDefaultLocale($locale)
+                ->setLeftMin($this->settings['leftmin'])
+                ->setRightMin($this->settings['rightmin'])
+                ->setWordMin($this->settings['shortestPattern'])
+                ->setFilters('Simple')
+                ->setTokenizer('Whitespace,Punctuation');
+
+            $this->hyphenators[$locale] = new Hyphenator\Hyphenator;
+            $this->hyphenators[$locale]->setOptions($options);
         }
 
         $word = '';
@@ -199,124 +202,11 @@ class HyphenationService
             return $this->dictionary[mb_strtolower($word)];
         }
 
-        $w = '_' . $word . '_';
-        $wLength = mb_strlen($w);
-        $chars = $this->mb_split_chars($w);
-        $w = mb_strtolower($w);
-        $hyphenatedWord = [];
-        $hypos = [];
-
-        $n = $wLength - $this->settings['shortestPattern'];
-        for ($p = 0; $p <= $n; $p++) {
-            $maxWins = min(($wLength - $p), $this->settings['longestPattern']);
-            for ($win = $this->settings['shortestPattern']; $win <= $maxWins; $win++) {
-                if (isset($this->patterns[$locale][mb_substr($w, $p, $win)])) {
-                    $pat = $this->patterns[$locale][mb_substr($w, $p, $win)];
-                    $patLength = mb_strlen($pat);
-
-                    $t = 0;
-                    $val = [];
-                    for ($i = 0; $i < $patLength; $i++) {
-                        $c = mb_substr($pat, $i, 1);
-                        if (is_numeric($c)) {
-                            $val[] = $i - $t;
-                            $val[] = (int)$c;
-                            $t++;
-                        }
-                    }
-                    $pat = $val;
-                } else {
-                    continue;
-                }
-
-                for ($i = 0; $i < count($pat); $i += 2) {
-                    $c = $p - 1 + $pat[$i];
-                    if (!isset($hypos[$c]) || $hypos[$c] < $pat[$i + 1]) {
-                        $hypos[$c] = $pat[$i + 1];
-                    }
-                }
-            }
-        }
-
-        $inserted = 0;
-        for ($i = $this->settings['leftmin']; $i <= (mb_strlen($word) - $this->settings['rightmin']); $i++) {
-            if (isset($hypos[$i]) && !!$hypos[$i] & 1) {
-                array_splice($chars, $i + $inserted + 1, 0, $this->settings['hyphen']);
-                $inserted++;
-            }
-        }
-        $hyphenatedWord = implode(array_splice($chars, 1, -1));
+        $hyphenatedWord = $this->hyphenators[$locale]->hyphenate($word);
 
         /**
          * @TODO Add caching?
          */
         return $hyphenatedWord;
-    }
-
-
-    /**
-     * Internal helper function to split chars.
-     *
-     * @param string $string
-     * @return array
-     */
-    protected function mb_split_chars($string)
-    {
-        $i = 0;
-        $strlen = mb_strlen($string);
-        $array = [];
-        while ($strlen - $i > 0) {
-            $array[] = mb_substr($string, $i++, 1, 'utf-8');
-        }
-        return $array;
-    }
-
-    /**
-     * Internal helper function to convert js-Files from hyphenator.js
-     * to a php-Pattern file.
-     *
-     * @param string $filename
-     * @return void
-     */
-    protected function makePHPPattern($filename)
-    {
-        $lines = file($filename . '.js');
-        $lines = str_replace(':', '=', $lines);
-        $lines = str_replace(',', ';', $lines);
-        $lines = str_replace('leftmin', '$leftmin', $lines);
-        $lines = str_replace('rightmin', '$rightmin', $lines);
-        $lines = str_replace('shortestPattern', '$shortestPattern', $lines);
-        $lines = str_replace('longestPattern', '$longestPattern', $lines);
-        $lines = str_replace(' ', '', $lines);
-        $lines = str_replace("\t", '', $lines);
-
-        $patterns = [];
-        foreach ($lines as $lineNum => $line) {
-            if (preg_match('/^([0-9]+)=/', $line, $matches)) {
-                $num = $matches[1];
-                if ($num >= 3) {
-                    $str1 = explode('"', $line);
-                    for ($i = 0; $i < mb_strlen($str1[1]) / $num; $i++) {
-                        $pattern = mb_substr($str1[1], $i * $num, $num, 'utf-8');
-                        $patterns[] = "'" . preg_replace('/[0-9]/', '', $pattern) . "'=>'" . $pattern . "'";
-                    }
-                }
-            }
-        }
-
-        $filename = $filename . '.php';
-        if (!($handle = fopen($filename, 'w'))) {
-            // TODO: Add Exception
-            return false;
-        }
-
-        $pattern = 'return [' . implode(', ', $patterns) . '];';
-        if (!fwrite($handle, "<?php\n" . $pattern)) {
-            // TODO: Add Exception
-            return false;
-        }
-
-        fclose($handle);
-        return true;
     }
 }

@@ -2,21 +2,39 @@ Wegmeister:
   Hyphenator:
     patternPath: '%FLOW_PATH_PACKAGES%Plugins/Wegmeister.Hyphenator/Configuration/patterns/'
     dictionary: '%FLOW_PATH_ROOT%Configuration/Production/dictionary.txt'
-    hyphen: '­' # utf-8 char for the html &shy; entity
+    hyphen: '&shy;' # utf-8 char for the html &shy; entity
     altHyphen: '&shy;'
     excludeTags:
       code: TRUE
       pre: TRUE
       script: TRUE
       style: TRUE
-    leftmin: 2
-    rightmin: 2
-    shortestPattern: 5
+    leftmin: 3
+    rightmin: 3
+    shortestPattern: 6
     longestPattern: 10
-    wordBoundaries: "<>\t\n\r\0\x0B !\"§$%&/()=?….,;:-–_„”«»‘’'/\\‹›()[]{}*+´`^|©?®™?¹²³"
+    wordBoundaries: "<>\t\n\r\0\x0B!\"§$%&/()=?….,;:-–_„”«»‘’'/\\‹›()[]{}*+´`^|©?®™?¹²³"
     locales:
       'de': 'de_DE'
       'en': 'en_GB'
+      'af': 'af_ZA'
+      'cs': 'cs_CZ'
+      'da': 'da_DK'
+      'et': 'et_EE'
+      'hr': 'hr_HR'
+      'hu': 'hu_HU'
+      'it': 'it_IT'
+      'lt': 'lt_LT'
+      'nb': 'nb_NO'
+      'nl': 'nl_NL'
+      'nn': 'nn_NO'
+      'pl': 'pl_PL'
+      'pt': 'pt_BR'
+      'ro': 'ro_RO'
+      'ru': 'ru_RU'
+      'sk': 'sk_SK'
+      'sl': 'sl_SI'
+      'zu': 'zu_ZA'
 
 
 TYPO3:

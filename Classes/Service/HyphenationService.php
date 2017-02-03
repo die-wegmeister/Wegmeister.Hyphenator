@@ -159,7 +159,7 @@ class HyphenationService
         }
 
         $text = implode($output);
-        return mb_substr($text, 0, mb_strlen($text) - 1);
+        return trim($text);
     }
 
     /**

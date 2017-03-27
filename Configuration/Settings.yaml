@@ -13,7 +13,7 @@ Wegmeister:
     rightmin: 3
     shortestPattern: 6
     longestPattern: 10
-    wordBoundaries: "<>\t\n\r\0\v!\"§$%&/()=?….,;:-–_„”«»‘’'/\\‹›()[]{}*+´`^|©?®™?¹²³"
+    wordBoundaries: "<>\t\n\r\0\x0B!\"§$%&/()=?….,;:-–_„”«»‘’'/\\‹›()[]{}*+´`^|©?®™?¹²³"
     locales:
       de: de_DE
       en: en_GB
@@ -35,6 +35,7 @@ Wegmeister:
       sk: sk_SK
       sl: sl_SI
       zu: zu_ZA
+
 Neos:
   Neos:
     fusion:

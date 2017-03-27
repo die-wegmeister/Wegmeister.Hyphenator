@@ -10,7 +10,7 @@ namespace Wegmeister\Hyphenator\Service;
  * the pattern-converter by Benjamin Klix
  */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use \Org\Heigl\Hyphenator;
 
 /**
@@ -20,7 +20,7 @@ class HyphenationService
 {
     /**
      * @Flow\Inject
-     * @var \TYPO3\Flow\I18n\Service
+     * @var \Neos\Flow\I18n\Service
      */
     protected $localizationService;
 

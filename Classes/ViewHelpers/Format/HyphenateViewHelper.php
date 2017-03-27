@@ -5,10 +5,10 @@ namespace Wegmeister\Hyphenator\ViewHelpers\Format;
  * This script belongs to the TYPO3 Flow Package "Wegmeister.Hyphenator"
  */
 
-use TYPO3\Flow\Annotations as Flow;
+use Neos\Flow\Annotations as Flow;
 use Wegmeister\Hyphenator\Service\HyphenationService;
-use TYPO3\Neos\ViewHelpers\Rendering\AbstractRenderingStateViewHelper;
-use TYPO3\Fluid\Core\ViewHelper\Facets\CompilableInterface;
+use Neos\Neos\ViewHelpers\Rendering\AbstractRenderingStateViewHelper;
+use Neos\FluidAdaptor\Core\ViewHelper\Facets\CompilableInterface;
 
 /**
  * Adds hyphens (&shy;) to the given text.

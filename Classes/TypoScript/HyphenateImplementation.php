@@ -5,10 +5,10 @@ namespace Wegmeister\Hyphenator\TypoScript;
  * This script belongs to the TYPO3 Flow Package "Wegmeister.Hyphenator"
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Neos\Domain\Exception;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
-use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
+use Neos\Flow\Annotations as Flow;
+use Neos\Neos\Domain\Exception;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\Fusion\FusionObjects\AbstractFusionObject;
 
 /**
  * A TypoScript Object that adds hyphens to texts
@@ -17,7 +17,7 @@ use TYPO3\TypoScript\TypoScriptObjects\AbstractTypoScriptObject;
  *
  *   someTextProperty.@process.1 = Wegmeister.Hyphenator:Hyphenate
  */
-class HyphenateImplementation extends AbstractTypoScriptObject
+class HyphenateImplementation extends AbstractFusionObject
 {
     /**
      * @Flow\Inject

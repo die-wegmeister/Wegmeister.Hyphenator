@@ -33,7 +33,7 @@ class HyphenateViewHelper extends AbstractRenderingStateViewHelper implements Co
 {
     /**
      * @Flow\Inject
-     * @var \Wegmeister\Hyphenator\Service\HyphenationService
+     * @var HyphenationService
      */
     protected $hyphenationService;
 
@@ -41,12 +41,12 @@ class HyphenateViewHelper extends AbstractRenderingStateViewHelper implements Co
      * @see AbstractViewHelper::isOutputEscapingEnabled()
      * @var boolean
      */
-    protected $escapeOutput = FALSE;
+    protected $escapeOutput = false;
 
     /**
      * @var boolean
      */
-    protected $escapeChildren = FALSE;
+    protected $escapeChildren = false;
 
 
     /**
@@ -59,7 +59,7 @@ class HyphenateViewHelper extends AbstractRenderingStateViewHelper implements Co
     * @see https://github.com/mnater/hyphenator (original js-Implementation)
     * @api
     */
-    public function render($value = NULL, $locale = null)
+    public function render($value = null, $locale = null)
     {
         $context = $this->getNodeContext();
         $renderingMode = $context->getCurrentRenderingMode();
@@ -69,7 +69,7 @@ class HyphenateViewHelper extends AbstractRenderingStateViewHelper implements Co
             return $value;
         }
 
-        if ($value === NULL) {
+        if ($value === null) {
             $closure = $this->buildRenderChildrenClosure();
             $value = $closure();
         }

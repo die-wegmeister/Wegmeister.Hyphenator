@@ -106,7 +106,7 @@ class HyphenationService
                 ->setRightMin($this->settings['rightmin'])
                 ->setWordMin($this->settings['shortestPattern'])
                 ->setFilters('Simple')
-                ->setTokenizers('Whitespace,Punctuation');
+                ->setTokenizers('Xml,Whitespace,Punctuation');
 
             $this->hyphenators[$locale] = new Hyphenator\Hyphenator();
             $this->hyphenators[$locale]->setOptions($options);
@@ -124,8 +124,12 @@ class HyphenationService
         for ($i = 0; $i < mb_strlen($text); $i++) {
             $char = mb_substr($text, $i, 1);
             if ($tag !== '') {
-                if ($char === '"' && !$inAttr2) $inAttr1 = !$inAttr1;
-                if ($char === "'" && !$inAttr1) $inAttr2 = !$inAttr2;
+                if ($char === '"' && !$inAttr2) {
+                    $inAttr1 = !$inAttr1;
+                }
+                if ($char === "'" && !$inAttr1) {
+                    $inAttr2 = !$inAttr2;
+                }
             }
             if (mb_strpos($this->settings['wordBoundaries'], $char) === false && $tag === '') {
                 $word .= $char;
@@ -148,13 +152,15 @@ class HyphenationService
                     $tagName = ($spacePos && $spacePos < $bracketPos) ? mb_substr($tag, 1, $spacePos - 1) : mb_substr($tag, 1, $bracketPos - 1);
                     if ($tagJump === '' && in_array(mb_strtolower($tagName), $this->settings['excludeTags'])) {
                         $tagJump = mb_strtolower($tagName);
-                    } else if ($tagJump === '' || mb_strtolower(mb_substr($tag, -mb_strlen($tagName) - 3)) === '</' . $tagJump . '>') {
+                    } elseif ($tagJump === '' || mb_strtolower(mb_substr($tag, -mb_strlen($tagName) - 3)) === '</' . $tagJump . '>') {
                         $output[] = $tag;
                         $tag = '';
                         $tagJump = '';
                     }
                 }
-                if ($tag === '' && $char !== '<' && $char !== '>') $output[] = $char;
+                if ($tag === '' && $char !== '<' && $char !== '>') {
+                    $output[] = $char;
+                }
             }
         }
 

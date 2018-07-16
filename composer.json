@@ -2,10 +2,10 @@
     "name": "wegmeister/hyphenator",
     "type": "neos-plugin",
     "description": "PHP-Adaption of Hyphenator.js (by Mathias Nater).",
-    "license": "Creative Commons Attribution-Share Alike 2.5 Switzerland",
+    "license": "MIT",
     "require": {
         "php": ">=7.0",
-        "org_heigl/hyphenator": "2.0.*",
+        "org_heigl/hyphenator": "^2.3",
         "neos/neos": "^3.0"
     },
     "autoload": {

@@ -1,5 +1,5 @@
 <?php
-namespace Wegmeister\Hyphenator\TypoScript;
+namespace Wegmeister\Hyphenator\Fusion;
 
 /**
  * This script belongs to the TYPO3 Flow Package "Wegmeister.Hyphenator"
@@ -11,7 +11,7 @@ use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Fusion\FusionObjects\AbstractFusionObject;
 
 /**
- * A TypoScript Object that adds hyphens to texts
+ * A Fusion Object that adds hyphens to texts
  *
  * Usage::
  *
@@ -37,20 +37,20 @@ class HyphenateImplementation extends AbstractFusionObject
      */
     public function evaluate()
     {
-        $text = $this->tsValue('value');
-        $locale = $this->tsValue('locale');
+        $text = $this->fusionValue('value');
+        $locale = $this->fusionValue('locale');
 
         if ($text === '' || $text === null) {
             return '';
         }
 
-        $node = $this->tsValue('node');
+        $node = $this->fusionValue('node');
 
         if (!$node instanceof NodeInterface) {
             throw new Exception(sprintf('The current node must be an instance of NodeInterface, given: "%s".', gettype($text)), 1382624087);
         }
 
-        if ($node->getContext()->getWorkspace()->getName() !== 'live' && !($this->tsValue('forceConversion'))) {
+        if ($node->getContext()->getWorkspace()->getName() !== 'live' && !($this->fusionValue('forceConversion'))) {
             return $text;
         }
 

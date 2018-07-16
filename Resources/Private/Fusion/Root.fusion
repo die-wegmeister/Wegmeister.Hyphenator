@@ -1,5 +1,5 @@
 prototype(Wegmeister.Hyphenator:Hyphenate) {
-  @class = 'Wegmeister\\Hyphenator\\TypoScript\\HyphenateImplementation'
+  @class = 'Wegmeister\\Hyphenator\\Fusion\\HyphenateImplementation'
   value = ${value}
   node = ${node}
 }

@@ -106,7 +106,7 @@ class HyphenationService
                 ->setRightMin($this->settings['rightmin'])
                 ->setWordMin($this->settings['shortestPattern'])
                 ->setFilters('Simple')
-                ->setTokenizers('Xml,Whitespace,Punctuation');
+                ->setTokenizers('Whitespace,Punctuation');
 
             $this->hyphenators[$locale] = new Hyphenator\Hyphenator();
             $this->hyphenators[$locale]->setOptions($options);

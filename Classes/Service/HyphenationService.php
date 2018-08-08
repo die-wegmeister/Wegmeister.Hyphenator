@@ -181,7 +181,7 @@ class HyphenationService
      */
     protected function wordHyphenation($words, $locale)
     {
-        $words = explode(' ', $word);
+        $words = explode(' ', $words);
         foreach ($words as &$word) {
             if (isset($this->dictionary[mb_strtolower($word)])) {
                 $word = $this->dictionary[mb_strtolower($word)];

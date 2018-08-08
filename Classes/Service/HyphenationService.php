@@ -37,11 +37,6 @@ class HyphenationService
     /**
      * @var array
      */
-    protected $patterns;
-
-    /**
-     * @var array
-     */
     protected $hyphenators;
 
 
@@ -72,8 +67,6 @@ class HyphenationService
                 }
             }
         }
-
-        $this->patterns = [];
     }
 
 

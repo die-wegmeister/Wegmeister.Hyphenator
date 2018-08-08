@@ -174,24 +174,25 @@ class HyphenationService
     /**
      * Word hyphenation.
      *
-     * @param string $word
-     * @param string $locale
+     * @param string $words  The word string that should be hyphenated.
+     * @param string $locale The current locale.
+     *
      * @return string
      */
-    protected function wordHyphenation($word, $locale)
+    protected function wordHyphenation($words, $locale)
     {
-        if (mb_strpos($word, $this->settings['hyphen']) !== false
-          || mb_strpos($word, $this->settings['altHyphen']) !== false) {
-            return $word;
+        $words = explode(' ', $word);
+        foreach ($words as &$word) {
+            if (isset($this->dictionary[mb_strtolower($word)])) {
+                $word = $this->dictionary[mb_strtolower($word)];
+            }
         }
-        if (isset($this->dictionary[mb_strtolower($word)])) {
-            return $this->dictionary[mb_strtolower($word)];
-        }
+        $word = implode(' ', $words);
 
         $hyphenatedWord = $this->hyphenators[$locale]->hyphenate($word);
 
         /**
-         * @TODO Add caching?
+         * TODO: Add caching?
          */
         return $hyphenatedWord;
     }

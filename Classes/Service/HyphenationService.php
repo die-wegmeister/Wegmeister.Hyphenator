@@ -19,22 +19,30 @@ use \Org\Heigl\Hyphenator;
 class HyphenationService
 {
     /**
+     * Localization Service.
+     *
      * @Flow\Inject
      * @var \Neos\Flow\I18n\Service
      */
     protected $localizationService;
 
     /**
+     * Settings injected from the yaml config.
+     *
      * @var array
      */
     protected $settings;
 
     /**
+     * Dictionary for special words not hyphenated correctly.
+     *
      * @var array
      */
     protected $dictionary;
 
     /**
+     * Array of (cached) hyphenators.
+     *
      * @var array
      */
     protected $hyphenators;
@@ -43,7 +51,8 @@ class HyphenationService
     /**
      * Inject the settings
      *
-     * @param array $settings
+     * @param array $settings Settings to inject from yaml config.
+     *
      * @return void
      */
     public function injectSettings(array $settings)
@@ -73,8 +82,9 @@ class HyphenationService
     /**
      * Add text hyphenation.
      *
-     * @param string $text
-     * @param string $locale
+     * @param string $text   The text to hyphenate.
+     * @param string $locale The current locale.
+     *
      * @return string
      */
     public function hyphenate($text, $locale = null)

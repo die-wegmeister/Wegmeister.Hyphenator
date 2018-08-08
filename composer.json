@@ -1,7 +1,7 @@
 {
     "name": "wegmeister/hyphenator",
     "type": "neos-plugin",
-    "description": "PHP-Adaption of Hyphenator.js (by Mathias Nater).",
+    "description": "Neos-Plugion of the Word-Hyphenation for PHP based on the TeX-Hyphenation algorithm.",
     "license": "GPL-3.0-or-later",
     "require": {
         "php": ">=7.0",

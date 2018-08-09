@@ -225,7 +225,7 @@ class HyphenationService
      */
     protected function firstLetterIsUppercase(string $word)
     {
-        $chr = mb_substr($str, 0, 1, 'UTF-8');
+        $chr = mb_substr($word, 0, 1, 'UTF-8');
         return mb_strtolower($chr, 'UTF-8') != $chr;
     }
 
@@ -238,8 +238,8 @@ class HyphenationService
      */
     protected function firstLetterToUppercase(string $word)
     {
-        $firstChar = mb_substr($string, 0, 1, 'UTF-8');
-        $nextChars = mb_substr($string, 1, null, 'UTF-8');
+        $firstChar = mb_substr($word, 0, 1, 'UTF-8');
+        $nextChars = mb_substr($word, 1, null, 'UTF-8');
         return mb_strtoupper($firstChar, 'UTF-8') . $nextChars;
     }
 

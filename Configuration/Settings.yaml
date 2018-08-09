@@ -41,3 +41,10 @@ Neos:
     fusion:
       autoInclude:
         Wegmeister.Hyphenator: true
+    modules:
+      hyphenatorDictionar:
+        label: 'Hyphenator Dictionary'
+        controller: \Wegmeister\Hyphenator\Controller\DictionaryController
+        description: 'List hyphenator dictionary entries'
+        icon: icon-book
+        privilegeTarget: 'Wegmeister.Hyphenator:Backend.DictionaryViewer'

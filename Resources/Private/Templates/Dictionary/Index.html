@@ -1,0 +1,25 @@
+<f:layout name="Default" />
+
+<f:section name="Title">A list of dictionary entries</f:section>
+
+<f:section name="Content">
+    <f:if condition="{dictionaries}">
+        <f:then>
+            <ul>
+                <f:for each="{dictionaries}" as="dictionary">
+                    <li>
+                        <f:link.action action="show" arguments="{dictionary: dictionary}">{dictionary.realWord}</f:link.action>
+                        <f:link.action action="edit" arguments="{dictionary: dictionary}">Edit</f:link.action>
+                        <f:form action="delete" arguments="{dictionary: dictionary}">
+                            <f:form.submit value="Delete" />
+                        </f:form>
+                    </li>
+                </f:for>
+            </ul>
+        </f:then>
+        <f:else>
+            <p>No dictionary entries created yet.</p>
+        </f:else>
+    </f:if>
+    <p><f:link.action action="new">Create a new dictionary entry</f:link.action></p>
+</f:section>

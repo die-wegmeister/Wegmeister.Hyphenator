@@ -1,0 +1,26 @@
+<f:layout name="Default" />
+
+<f:section name="Title">New dictionary</f:section>
+
+<f:section name="Content">
+    <p>Just fill out the following form to create a new dictionary:</p>
+
+    <f:form action="create" objectName="newDictionary">
+        <ol>
+            <li>
+                <label for="locale">Locale (en, de, ...)</label>
+                <f:form.textfield property="locale" id="locale" />
+            </li>
+
+            <li>
+                <label for="word">Word (divided by slashes (/) where hyphenation should take place)</label>
+                <f:form.textfield property="word" id="word" />
+                <div><small>For example: hy/phe/na/tion.</small></div>
+            </li>
+
+            <li>
+                <f:form.submit value="Create" />
+            </li>
+        </ol>
+    </f:form>
+</f:section>

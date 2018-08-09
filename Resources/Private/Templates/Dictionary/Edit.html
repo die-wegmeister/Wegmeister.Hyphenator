@@ -1,0 +1,24 @@
+<f:layout name="Default" />
+
+<f:section name="Title">Edit dictionary entry "{dictionary.realWord}"</f:section>
+
+<f:section name="Content">
+    <f:form action="update" object="{dictionary}" objectName="dictionary">
+        <ol>
+            <li>
+                <label for="locale">Locale</label>
+                <f:form.textfield property="locale" id="locale" />
+            </li>
+
+            <li>
+                <label for="word">Word (divided by slashes (/) where hyphenation should take place)</label>
+                <f:form.textfield property="word" id="word" />
+                <div><small>For example: hy/phe/na/tion.</small></div>
+            </li>
+
+            <li>
+                <f:form.submit value="Update" />
+            </li>
+        </ol>
+    </f:form>
+</f:section>

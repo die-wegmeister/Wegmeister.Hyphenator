@@ -1,0 +1,27 @@
+privilegeTargets:
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+    'Wegmeister.Hyphenator:Backend.DictionaryViewer':
+      matcher: 'method(Wegmeister\Hyphenator\Controller\DictionaryController->(index|show)Action())'
+    'Wegmeister.Hyphenator:Backend.DictionaryEditor':
+      matcher: 'method(Wegmeister\Hyphenator\Controller\DictionaryController->(new|create|edit|update|delete)Action())'
+
+
+roles:
+  'Wegmeister.Hyphenator:DictionaryEditor':
+    privileges:
+      -
+        privilegeTarget: 'Wegmeister.Hyphenator:Backend.DictionaryViewer'
+        permission: GRANT
+      -
+        privilegeTarget: 'Wegmeister.Hyphenator:Backend.DictionaryEditor'
+        permission: GRANT
+
+  'Neos.Neos:Administrator':
+    privileges:
+      -
+        privilegeTarget: 'Wegmeister.Hyphenator:Backend.DictionaryViewer'
+        permission: GRANT
+
+      -
+        privilegeTarget: 'Wegmeister.Hyphenator:Backend.DictionaryEditor'
+        permission: GRANT

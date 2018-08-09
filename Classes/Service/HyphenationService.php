@@ -1,8 +1,23 @@
 <?php
+/**
+ * Hyphenation service to handle the hyphenation of texts.
+ *
+ * This file is part of the Flow Package "Wegmeister.Hyphenator".
+ * This service is a Neos-Integration of the Org_Heigl_Hyphenator,
+ * which is Word-Hyphenation for PHP based on the TeX-Hyphenation algorithm.
+ *
+ * PHP version 7
+ *
+ * @category Hyphenator
+ * @package  Wegmeister\Hyphenator
+ * @author   Benjamin Klix <benjamin.klix@die-wegmeister.com>
+ * @license  https://github.com/die-wegmeister/Wegmeister.Hyphenator/blob/master/LICENSE GPL-3.0-or-later
+ * @link     https://github.com/die-wegmeister/Wegmeister.Hyphenator
+ */
 namespace Wegmeister\Hyphenator\Service;
 
 /**
- * This script belongs to the TYPO3 Flow Package "Wegmeister.Hyphenator".
+ * This script belongs to the Flow Package "Wegmeister.Hyphenator".
  * This service handles the hyphenation of texts.
  *
  * wegmeister/hyphenator 1.1.0
@@ -25,6 +40,14 @@ class HyphenationService
      * @var \Neos\Flow\I18n\Service
      */
     protected $localizationService;
+
+    /**
+     * The repository for the dictionary.
+     *
+     * @Flow\Inject
+     * @var DictionaryRepository
+     */
+    protected $dictionaryRepository;
 
     /**
      * Settings injected from the yaml config.
@@ -66,13 +89,13 @@ class HyphenationService
         $settings['excludeTags'] = $excludeTags;
         $this->settings = $settings;
 
-        $this->dictionary = [];
+        $this->dictionary = ['mul' => []];
         if (file_exists($this->settings['dictionary'])) {
             $entries = file($this->settings['dictionary']);
             foreach ($entries as $entry) {
                 $entry = trim($entry);
                 if (strlen($entry) > 0) {
-                    $this->dictionary[str_replace('/', '', mb_strtolower($entry))] = str_replace('/', $this->settings['hyphen'], $entry);
+                    $this->dictionary['mul'][str_replace('/', '', mb_strtolower($entry))] = str_replace('/', $this->settings['hyphen'], $entry);
                 }
             }
         }
@@ -100,20 +123,8 @@ class HyphenationService
             $locale = $this->settings['locales'][$locale];
         }
 
-        if (!isset($this->hyphenators[$locale])) {
-            $options = new Hyphenator\Options();
-            $options
-                ->setHyphen($this->settings['hyphen'])
-                ->setDefaultLocale($locale)
-                ->setLeftMin($this->settings['leftmin'])
-                ->setRightMin($this->settings['rightmin'])
-                ->setWordMin($this->settings['shortestPattern'])
-                ->setFilters('Simple')
-                ->setTokenizers('Whitespace,Punctuation');
-
-            $this->hyphenators[$locale] = new Hyphenator\Hyphenator();
-            $this->hyphenators[$locale]->setOptions($options);
-        }
+        $this->initHyphenator($locale);
+        $this->initLocaleDictionary($locale);
 
         $word = '';
         $tag  = '';
@@ -183,8 +194,11 @@ class HyphenationService
     {
         $words = explode(' ', $words);
         foreach ($words as &$word) {
-            if (isset($this->dictionary[mb_strtolower($word)])) {
-                $word = $this->dictionary[mb_strtolower($word)];
+            $lowercaseWord = mb_strtolower($word);
+            if (isset($this->dictionary[$locale][$lowercaseWord])) {
+                $word = $this->dictionary[$locale][$lowercaseWord];
+            } elseif (isset($this->dictionary['mul'][$lowercaseWord])) {
+                $word = $this->dictionary['mul'][$lowercaseWord];
             }
         }
         $word = implode(' ', $words);
@@ -195,5 +209,50 @@ class HyphenationService
          * TODO: Add caching?
          */
         return $hyphenatedWord;
+    }
+
+
+    /**
+     * Initialize the hyphenator for a given locale.
+     *
+     * @param string $locale The current locale to use.
+     *
+     * @return void
+     */
+    protected function initHyphenator(string $locale)
+    {
+        if (!isset($this->hyphenators[$locale])) {
+            $options = new Hyphenator\Options();
+            $options
+                ->setHyphen($this->settings['hyphen'])
+                ->setDefaultLocale($locale)
+                ->setLeftMin($this->settings['leftmin'])
+                ->setRightMin($this->settings['rightmin'])
+                ->setWordMin($this->settings['shortestPattern'])
+                ->setFilters('Simple')
+                ->setTokenizers('Whitespace,Punctuation');
+
+            $this->hyphenators[$locale] = new Hyphenator\Hyphenator();
+            $this->hyphenators[$locale]->setOptions($options);
+        }
+    }
+
+    /**
+     * Initialize the dictionary for the given locale.
+     *
+     * @param string $locale The current locale to use.
+     *
+     * @return void
+     */
+    protected function initLocaleDictionary(string $locale)
+    {
+        if (!isset($this->dictionary[$locale])) {
+            $this->dictionary[$locale] = [];
+            $entries = $this->dictionaryRepository->findByLocale($locale);
+            foreach ($entries as $entry) {
+                $word = $entry->getWord();
+                $this->dictionary[$locale][str_replace('/', '', mb_strtolower($word))] = str_replace('/', $this->settings['hyphen'], $word);
+            }
+        }
     }
 }

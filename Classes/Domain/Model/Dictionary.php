@@ -57,6 +57,8 @@ class Dictionary
     {
         $this->locale = $locale;
     }
+
+
     /**
      * Get the hyphenated word of this dictionary entry.
      *
@@ -77,5 +79,15 @@ class Dictionary
     public function setWord(string $word)
     {
         $this->word = $word;
+    }
+
+    /**
+     * Get the word without hyphenation dividers/slashes.
+     *
+     * @return string
+     */
+    public function getRealWord()
+    {
+        return str_replace('/', '', $this->word);
     }
 }

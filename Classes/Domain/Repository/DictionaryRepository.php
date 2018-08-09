@@ -20,10 +20,20 @@ namespace Wegmeister\Hyphenator\Domain\Repository;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Persistence\Repository;
+use Neos\Flow\Persistence\QueryInterface;
 
 /**
  * @Flow\Scope("singleton")
  */
 class DictionaryRepository extends Repository
 {
+    /**
+     * Adjust order of entries.
+     *
+     * @var array
+     */
+    protected $defaultOrderings = [
+        'word' => QueryInterface::ORDER_ASCENDING,
+        'locale' => QueryInterface::ORDER_ASCENDING,
+    ];
 }

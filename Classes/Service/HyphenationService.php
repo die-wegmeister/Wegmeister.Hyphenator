@@ -208,7 +208,7 @@ class HyphenationService
             } elseif (isset($this->dictionary['mul'][$lowercaseWord])) {
                 $word = $this->dictionary['mul'][$lowercaseWord];
             } else {
-                $word = $this->hyphenators[$locale]->hyphenate($word);
+                $word = trim($this->hyphenators[$locale]->hyphenate(' ' . $word . ' '));
                 if (is_array($word)) {
                     $word = $word[0];
                 }

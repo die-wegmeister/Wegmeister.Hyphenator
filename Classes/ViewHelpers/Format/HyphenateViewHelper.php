@@ -50,22 +50,24 @@ class HyphenateViewHelper extends AbstractRenderingStateViewHelper implements Co
 
 
     /**
-    * Adds hyphens (&shy;) to the given text.
-    *
-    * @param string $value String that should be formatted
-    * @param string $locale Locale for use in hyphenator
-    * @return mixed
-    * @see https://www.liedtke.it/op1a.htm
-    * @see https://github.com/mnater/hyphenator (original js-Implementation)
-    * @api
-    */
-    public function render($value = null, $locale = null)
+     * Adds hyphens (&shy;) to the given text.
+     *
+     * @param string $value  String that should be formatted
+     * @param string $locale Locale for use in hyphenator
+     * @param bool   $force  Force to run the hyphenator, even in backend.
+     *
+     * @return mixed
+     *
+     * @see https://github.com/heiglandreas/Org_Heigl_Hyphenator (Original PHP implementation)
+     * @api
+     */
+    public function render($value = null, $locale = null, bool $force = false)
     {
         $context = $this->getNodeContext();
         $renderingMode = $context->getCurrentRenderingMode();
 
         // Do not use hyphenator in Neos Backend
-        if ($renderingMode->isEdit()) {
+        if (!$force && $renderingMode->isEdit()) {
             return $value;
         }
 

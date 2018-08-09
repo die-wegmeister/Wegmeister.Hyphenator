@@ -193,14 +193,18 @@ class HyphenationService
      *
      * @return string
      */
-    protected function wordHyphenation($words, $locale)
+    protected function wordHyphenation(string $words, string $locale)
     {
+        $localeWithoutRegion = explode('_', $locale);
+        $localeWithoutRegion = $localeWithoutRegion[0];
         $words = explode(' ', $words);
         foreach ($words as &$word) {
             $firstLetterIsUppercase = $this->firstLetterIsUppercase($word);
             $lowercaseWord = mb_strtolower($word);
             if (isset($this->dictionary[$locale][$lowercaseWord])) {
                 $word = $this->dictionary[$locale][$lowercaseWord];
+            } elseif (isset($this->dictionary[$localeWithoutRegion][$lowercaseWord])) {
+                $word = $this->dictionary[$localeWithoutRegion][$lowercaseWord];
             } elseif (isset($this->dictionary['mul'][$lowercaseWord])) {
                 $word = $this->dictionary['mul'][$lowercaseWord];
             } else {
@@ -289,6 +293,12 @@ class HyphenationService
             $entries = $this->dictionaryRepository->findByLocale($locale);
             foreach ($entries as $entry) {
                 $this->dictionary[$locale][mb_strtolower($entry->getRealWord())] = str_replace('/', $this->settings['hyphen'], $entry->getWord());
+            }
+
+            if (strpos($locale, '_') !== false) {
+                $localeWithoutRegion = explode('_', $locale);
+                $localeWithoutRegion = $localeWithoutRegion[0];
+                $this->initLocaleDictionary($localeWithoutRegion);
             }
         }
     }

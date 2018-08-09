@@ -201,19 +201,23 @@ class HyphenationService
                 $word = $this->dictionary[$locale][$lowercaseWord];
             } elseif (isset($this->dictionary['mul'][$lowercaseWord])) {
                 $word = $this->dictionary['mul'][$lowercaseWord];
+            } else {
+                $word = $this->hyphenators[$locale]->hyphenate($word);
+                if (is_array($word)) {
+                    $word = $word[0];
+                }
+                continue;
             }
             if ($firstLetterIsUppercase) {
                 $word = $this->firstLetterToUppercase($word);
             }
         }
-        $word = implode(' ', $words);
-
-        $hyphenatedWord = $this->hyphenators[$locale]->hyphenate($word);
+        $words = implode(' ', $words);
 
         /**
          * TODO: Add caching?
          */
-        return $hyphenatedWord;
+        return $words;
     }
 
     /**

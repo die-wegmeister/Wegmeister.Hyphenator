@@ -26,7 +26,8 @@ namespace Wegmeister\Hyphenator\Service;
  */
 
 use Neos\Flow\Annotations as Flow;
-use \Org\Heigl\Hyphenator;
+use Wegmeister\Hyphenator\Domain\Repository\DictionaryRepository;
+use Org\Heigl\Hyphenator;
 
 /**
  * @Flow\Scope("singleton")

@@ -90,7 +90,9 @@ class HyphenationService
         $settings['excludeTags'] = $excludeTags;
         $this->settings = $settings;
 
-        $this->dictionary = ['mul' => []];
+        $this->dictionary = [];
+        // Initialize dictionary entries for all languages.
+        $this->initLocaleDictionary('mul');
         if (file_exists($this->settings['dictionary'])) {
             $entries = file($this->settings['dictionary']);
             foreach ($entries as $entry) {

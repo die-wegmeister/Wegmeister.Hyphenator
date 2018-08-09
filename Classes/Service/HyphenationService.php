@@ -195,11 +195,15 @@ class HyphenationService
     {
         $words = explode(' ', $words);
         foreach ($words as &$word) {
+            $firstLetterIsUppercase = $this->firstLetterIsUppercase($word);
             $lowercaseWord = mb_strtolower($word);
             if (isset($this->dictionary[$locale][$lowercaseWord])) {
                 $word = $this->dictionary[$locale][$lowercaseWord];
             } elseif (isset($this->dictionary['mul'][$lowercaseWord])) {
                 $word = $this->dictionary['mul'][$lowercaseWord];
+            }
+            if ($firstLetterIsUppercase) {
+                $word = $this->firstLetterToUppercase($word);
             }
         }
         $word = implode(' ', $words);
@@ -210,6 +214,33 @@ class HyphenationService
          * TODO: Add caching?
          */
         return $hyphenatedWord;
+    }
+
+    /**
+     * Check, if the first letter of the word is an uppercase letter.
+     *
+     * @param string $word The word to check
+     *
+     * @return bool
+     */
+    protected function firstLetterIsUppercase(string $word)
+    {
+        $chr = mb_substr($str, 0, 1, 'UTF-8');
+        return mb_strtolower($chr, 'UTF-8') != $chr;
+    }
+
+    /**
+     * Transform first letter of the word to an uppercase letter.
+     *
+     * @param string $word The word to transform
+     *
+     * @return bool
+     */
+    protected function firstLetterToUppercase(string $word)
+    {
+        $firstChar = mb_substr($string, 0, 1, 'UTF-8');
+        $nextChars = mb_substr($string, 1, null, 'UTF-8');
+        return mb_strtoupper($firstChar, 'UTF-8') . $nextChars;
     }
 
 

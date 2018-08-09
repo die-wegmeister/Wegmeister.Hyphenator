@@ -90,9 +90,8 @@ class HyphenationService
         $settings['excludeTags'] = $excludeTags;
         $this->settings = $settings;
 
-        $this->dictionary = [];
+        $this->dictionary = ['mul' => []];
         // Initialize dictionary entries for all languages.
-        $this->initLocaleDictionary('mul');
         if (file_exists($this->settings['dictionary'])) {
             $entries = file($this->settings['dictionary']);
             foreach ($entries as $entry) {
@@ -126,6 +125,7 @@ class HyphenationService
             $locale = $this->settings['locales'][$locale];
         }
 
+        $this->initLocaleDictionary('mul', true);
         $this->initHyphenator($locale);
         $this->initLocaleDictionary($locale);
 
@@ -283,13 +283,19 @@ class HyphenationService
      * Initialize the dictionary for the given locale.
      *
      * @param string $locale The current locale to use.
+     * @param bool   $force  Force initialization (used for "mul" locale).
      *
      * @return void
      */
-    protected function initLocaleDictionary(string $locale)
+    protected function initLocaleDictionary(string $locale, bool $force = false)
     {
+        $init = false;
         if (!isset($this->dictionary[$locale])) {
             $this->dictionary[$locale] = [];
+            $init = true;
+        }
+
+        if ($init || $force) {
             $entries = $this->dictionaryRepository->findByLocale($locale);
             foreach ($entries as $entry) {
                 $this->dictionary[$locale][mb_strtolower($entry->getRealWord())] = str_replace('/', $this->settings['hyphen'], $entry->getWord());

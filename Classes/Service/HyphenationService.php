@@ -251,8 +251,7 @@ class HyphenationService
             $this->dictionary[$locale] = [];
             $entries = $this->dictionaryRepository->findByLocale($locale);
             foreach ($entries as $entry) {
-                $word = $entry->getWord();
-                $this->dictionary[$locale][str_replace('/', '', mb_strtolower($word))] = str_replace('/', $this->settings['hyphen'], $word);
+                $this->dictionary[$locale][mb_strtolower($entry->getRealWord())] = str_replace('/', $this->settings['hyphen'], $entry->getWord());
             }
         }
     }

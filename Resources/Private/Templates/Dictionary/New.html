@@ -3,24 +3,29 @@
 <f:section name="Title">New dictionary</f:section>
 
 <f:section name="Content">
-    <p>Just fill out the following form to create a new dictionary:</p>
+  <style>
+  .neos form {margin-top: 10px;}
+  .neos form li {margin-bottom: 20px;}
+  .neos form li:last-child {margin-bottom: 0;}
+  </style>
+  <p>Just fill out the following form to create a new dictionary:</p>
 
-    <f:form action="create" objectName="newDictionary">
-        <ol>
-            <li>
-                <label for="locale">Locale (en_GB, de_DE, en, de, ...; "mul" for all languages)</label>
-                <f:form.textfield property="locale" id="locale" />
-            </li>
+  <f:form action="create" objectName="newDictionary">
+    <ol>
+      <li>
+        <label for="locale">Locale (en_GB, de_DE, en, de, ...; "mul" for all languages)</label>
+        <f:form.textfield property="locale" id="locale" />
+      </li>
 
-            <li>
-                <label for="word">Word (divided by slashes (/) where hyphenation should take place)</label>
-                <f:form.textfield property="word" id="word" />
-                <div><small>For example: hy/phe/na/tion.</small></div>
-            </li>
+      <li>
+        <label for="word">Word (divided by slashes (/) where hyphenation should take place)</label>
+        <f:form.textfield property="word" id="word" />
+        <div><small>For example: hy/phe/na/tion.</small></div>
+      </li>
 
-            <li>
-                <f:form.submit value="Create" />
-            </li>
-        </ol>
-    </f:form>
+      <li>
+        <f:form.submit value="Create" class="neos-button" />
+      </li>
+    </ol>
+  </f:form>
 </f:section>

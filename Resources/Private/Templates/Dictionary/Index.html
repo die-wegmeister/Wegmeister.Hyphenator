@@ -3,23 +3,37 @@
 <f:section name="Title">A list of dictionary entries</f:section>
 
 <f:section name="Content">
-    <f:if condition="{dictionaries}">
-        <f:then>
-            <ul>
-                <f:for each="{dictionaries}" as="dictionary">
-                    <li>
-                        <f:link.action action="show" arguments="{dictionary: dictionary}">{dictionary.realWord}</f:link.action>
-                        <f:link.action action="edit" arguments="{dictionary: dictionary}">Edit</f:link.action>
-                        <f:form action="delete" arguments="{dictionary: dictionary}">
-                            <f:form.submit value="Delete" />
-                        </f:form>
-                    </li>
-                </f:for>
-            </ul>
-        </f:then>
-        <f:else>
-            <p>No dictionary entries created yet.</p>
-        </f:else>
-    </f:if>
-    <p><f:link.action action="new">Create a new dictionary entry</f:link.action></p>
+  <f:if condition="{dictionaries}"><f:then>
+    <style type="text/css">
+    .dictionary__actions {width: 130px;}
+    </style>
+    <table class="neos-table">
+      <thead>
+        <tr>
+          <th>Dictionary entry (without separaion)</th>
+          <th>Locale</th>
+          <th class="dictionary__actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <f:for each="{dictionaries}" as="dictionary">
+          <tr>
+            <td><f:link.action action="show" arguments="{dictionary: dictionary}">{dictionary.realWord}</f:link.action></td>
+            <td>{dictionary.locale}</td>
+            <td>
+              <f:form action="edit" arguments="{dictionary: dictionary}" class="neos-inline">
+                <f:form.button type="submit" value="Edit"><i class="fas fa-pencil icon-pencil icon-white"></i></f:form.button>
+              </f:form>
+              <f:form action="delete" arguments="{dictionary: dictionary}" class="neos-inline">
+                <f:form.button type="submit" value="Delete"><i class="fas fa-trash-alt icon-trash-o icon-white"></i></f:form.button>
+              </f:form>
+            </td>
+          </tr>
+        </f:for>
+      </tbody>
+    </table>
+  </f:then><f:else>
+    <p>No dictionary entries created yet.</p>
+  </f:else></f:if>
+  <p><f:link.action action="new" class="neos-button">Create a new dictionary entry</f:link.action></p>
 </f:section>

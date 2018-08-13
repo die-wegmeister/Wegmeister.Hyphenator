@@ -1,6 +1,5 @@
 Wegmeister:
   Hyphenator:
-    patternPath: '%FLOW_PATH_PACKAGES%Plugins/Wegmeister.Hyphenator/Configuration/patterns/'
     dictionary: '%FLOW_PATH_ROOT%Configuration/Production/dictionary.txt'
     hyphen: '&shy;'
     altHyphen: '&shy;'
@@ -12,7 +11,6 @@ Wegmeister:
     leftmin: 3
     rightmin: 3
     shortestPattern: 6
-    longestPattern: 10
     wordBoundaries: "<>\t\n\r\0\x0B!\"§$%&/()=?….,;:-–_„”«»‘’'/\\‹›()[]{}*+´`^|©?®™?¹²³"
     locales:
       de: de_DE

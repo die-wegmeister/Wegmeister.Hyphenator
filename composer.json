@@ -3,12 +3,12 @@
     "type": "neos-plugin",
     "description": "Neos-Plugion of the Word-Hyphenation for PHP based on the TeX-Hyphenation algorithm.",
     "license": "GPL-3.0-or-later",
-    "authors" : [
+    "authors": [
         {
-            "name" : "Benjamin Klix",
-            "email" : "benjamin.klix@die-wegmeister.com",
-            "homepage" : "https://www.die-wegmeister.com/",
-            "role" : "Developer"
+            "name": "Benjamin Klix",
+            "email": "benjamin.klix@die-wegmeister.com",
+            "homepage": "https://www.die-wegmeister.com/",
+            "role": "Developer"
         }
     ],
     "require": {
@@ -23,10 +23,12 @@
     },
     "extra": {
         "neos/flow": {
-            "manage-resources" : true
+            "manage-resources": true
         },
         "neos": {
-            "installer-resource-folders": ["Resources/Private/Installer/"]
+            "installer-resource-folders": [
+                "Resources/Private/Installer/"
+            ]
         },
         "applied-flow-migrations": [
             "TYPO3.FLOW3-201201261636",
@@ -100,7 +102,15 @@
             "Neos.Fusion-20170120013047",
             "Neos.Flow-20170125103800",
             "Neos.Seo-20170127154600",
-            "Neos.Flow-20170127183102"
+            "Neos.Flow-20170127183102",
+            "Neos.ContentRepository.Search-20161210231100",
+            "Neos.Fusion-20180211175500",
+            "Neos.Fusion-20180211184832",
+            "Neos.Flow-20180415105700",
+            "Neos.Neos-20180907103800",
+            "Neos.Neos.Ui-20190319094900",
+            "Neos.Flow-20190425144900",
+            "Neos.Flow-20190515215000"
         ]
     }
 }
